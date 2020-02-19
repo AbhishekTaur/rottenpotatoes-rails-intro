@@ -14,6 +14,13 @@ class MoviesController < ApplicationController
     # Part 1
     @movies = Movie.all.order(params[:sort_by])
     
+    # Part 2
+    
+    @list_ratings = Movie.retrieve_ratings
+    
+    @ratings = params[:ratings] ? params[:ratings].keys : Movie.get_ratings
+    @movies      = Movie.where(rating: @ratings).order(params[:sort_by])
+    
     if params[:sort_by] == "title"
       @title_header = 'hilite' 
     end
