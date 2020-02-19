@@ -13,6 +13,14 @@ class MoviesController < ApplicationController
   def index
     
     # Part 3
+    if params.has_key?(:ratings)
+      session[:ratings] = params[:ratings] 
+    end
+    if params.has_key?(:sort_by)
+      session[:sort_by] = params[:sort_by] 
+    end
+    
+    # Part 3
     if session[:sort_by] == "title"
       @title_header = 'hilite' 
     end
