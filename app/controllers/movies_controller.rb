@@ -11,21 +11,34 @@ class MoviesController < ApplicationController
   end
 
   def index
+    
+    # Part 3
+    if session[:sort_by] == "title"
+      @title_header = 'hilite' 
+    end
+    if session[:sort_by] == 'release_date'
+      @release_date_header = 'hilite' 
+    end
+    
     # Part 1
-    @movies = Movie.all.order(params[:sort_by])
+    # @movies = Movie.all.order(params[:sort_by])
     
     # Part 2
     
     @list_ratings = Movie.get_ratings
     
-    @ratings = params[:ratings] ? params[:ratings].keys : Movie.get_ratings
-    @movies      = Movie.where(rating: @ratings).order(params[:sort_by])
+    # @ratings = params[:ratings] ? params[:ratings].keys : Movie.get_ratings
+    # @movies      = Movie.where(rating: @ratings).order(params[:sort_by])
     
-    if params[:sort_by] == "title"
-      @title_header = 'hilite' 
-    end
-    if params[:sort_by] == 'release_date'
-      @release_date_header = 'hilite' 
+    # Part 3
+    @ratings = session[:ratings] ? session[:ratings].keys : Movie.get_ratings
+    @movies      = Movie.where(rating: @ratings).order(session[:sort_by])
+    
+    
+    # Part 3 - If session changes, redirecting the page by calling the movies_path
+    unless session[:sort_by] == params[:sort_by] && session[:ratings] == params[:ratings]
+      flash.keep
+      redirect_to movies_path(sort_by: session[:sort_by], ratings: session[:ratings])
     end
   end
 
