@@ -16,7 +16,7 @@ class MoviesController < ApplicationController
     
     # Part 2
     
-    @list_ratings = Movie.retrieve_ratings
+    @list_ratings = Movie.get_ratings
     
     @ratings = params[:ratings] ? params[:ratings].keys : Movie.get_ratings
     @movies      = Movie.where(rating: @ratings).order(params[:sort_by])
